@@ -42,26 +42,6 @@ var cheerioHtmlFile = function(htmlfile) {
     return cheerio.load(fs.readFileSync(htmlfile));
 };
 
-var cheerioUrl = function(htmlUrl) {
-    rest.get(htmlUrl).on('complete', function(result, response) {
-        if (result instanceof Error) {
-            console.log('Error: ' + util.format(response.message));
-
-        } else {
-    var checks = loadChecks(checksfile).sort();
-    var out = {};
-            $ = cheerio.load(result);
-    for(var ii in checks) {
-        var present = $(checks[ii]).length > 0;
-        out[checks[ii]] = present;
-    }
-    return out;
-
-        }
-    });
-};
-
-
 var loadChecks = function(checksfile) {
     return JSON.parse(fs.readFileSync(checksfile));
 };
@@ -76,8 +56,6 @@ var checkHtmlFile = function(htmlfile, checksfile) {
     }
     return out;
 };
-
-
 
 var checkUrl = function(htmlUrl, checksfile) {
     rest.get(htmlUrl).on('complete', function(result, response) {
